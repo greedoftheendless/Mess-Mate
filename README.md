@@ -1,35 +1,35 @@
 # Mess Management System (MMS)
 
-A web-based dining management system for institutions to handle meal bookings, payments, and administration efficiently.
+A comprehensive web-based dining management system designed for institutions to efficiently manage meal bookings, payments, and administration.
 
 ## 🚀 Features
 
 ### Authentication
 - User registration with email verification
-- Login/logout functionality with password hashing
-- Role-based access (Student/Admin)
-- Session management
+- Secure login/logout functionality with password hashing
+- Role-based access control (Student/Admin)
+- Robust session management
 
 ### User Dashboard
-- Active subscription status
-- Upcoming meal schedule
+- Display of active subscription status
+- Upcoming meal schedule overview
 - Recent payment history
-- Profile settings & preferences
-- Real-time booking status
+- Profile settings & preferences management
+- Real-time booking status updates
 
 ### Meal Management
 - Flexible subscription plans (Weekly/Monthly)
-- One-time meal bookings
+- One-time meal booking options
 - Meal type selection (Breakfast/Lunch/Dinner)
-- Dietary preferences customization
+- Customizable dietary preferences
 - Easy meal cancellation with refund support
 
 ### Payment System
 - Secure payment processing
 - Support for one-time & subscription payments
-- Comprehensive payment history
+- Detailed payment history
 - Automated refund processing
-- Payment status tracking
+- Real-time payment status tracking
 
 ## 🛠️ Tech Stack
 
@@ -42,11 +42,11 @@ A web-based dining management system for institutions to handle meal bookings, p
 
 ## 📦 Installation
 
-1. Clone the repository
-```bash
-git clone [repository-url]
-cd mms
-```
+1. **Clone the repository**
+   ```bash
+   git clone [repository-url]
+   cd mms
+   ```
 
 2. Create and activate virtual environment
 ```bash
