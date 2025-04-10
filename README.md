@@ -1,84 +1,119 @@
-📌 Mess Mate
+# Mess Management System (MMS)
 
-A Web-Based Application for Efficient Mess Operations
+A web-based dining management system for institutions to handle meal bookings, payments, and administration efficiently.
 
-📖 About the Project
+## 🚀 Features
 
-The Mess Mate is a web-based solution designed to streamline mess operations, including meal tracking, user authentication, and inventory management. Built using HTML, CSS, JavaScript, Python (Flask), and SQLite, this system ensures efficient handling of daily mess activities with a user-friendly interface.
-🚀 Features
+### Authentication
+- User registration with email verification
+- Login/logout functionality with password hashing
+- Role-based access (Student/Admin)
+- Session management
 
-✅ User Authentication – Secure login and registration system
+### User Dashboard
+- Active subscription status
+- Upcoming meal schedule
+- Recent payment history
+- Profile settings & preferences
+- Real-time booking status
 
-✅ Meal Management – Allows users to book meals and track their meal history
+### Meal Management
+- Flexible subscription plans (Weekly/Monthly)
+- One-time meal bookings
+- Meal type selection (Breakfast/Lunch/Dinner)
+- Dietary preferences customization
+- Easy meal cancellation with refund support
 
-✅ Billing & Payments – Automated bill generation and tracking
+### Payment System
+- Secure payment processing
+- Support for one-time & subscription payments
+- Comprehensive payment history
+- Automated refund processing
+- Payment status tracking
 
-✅ Reports & Analytics – Insights into meal consumption and mess usage
+## 🛠️ Tech Stack
 
-🛠️ Tech Stack
+- **Backend**: Python Flask
+- **Database**: SQLite
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Authentication**: Flask-Login
+- **ORM**: SQLAlchemy
+- **UI**: Modern responsive design
 
-Technology Description
+## 📦 Installation
 
-Frontend HTML, CSS, JavaScript
+1. Clone the repository
+```bash
+git clone [repository-url]
+cd mms
+```
 
-Backend Python (Flask)
+2. Create and activate virtual environment
+```bash
+python -m venv venv
+.\venv\Scripts\activate  # Windows
+source venv/bin/activate  # Unix/MacOS
+```
 
-Database SQLite
-
-Version Control Git & GitHub
-
-Environment Linux (Arch-based)
-
-📂 Project Structure
-
-📦 Mess-Management-System
-│── 📁 static # CSS, JS, Images
-│── 📁 templates # HTML Templates
-│── 📄 app.py # Main Backend Application
-│── 📄 requirements.txt # Dependencies List
-│── 📄 routes.py # Routes on where the HTML pages in main page route to
-│── 📄 README.md # Project Documentation
-│── 📄 LICENSE # License Information
-
-💻 Installation & Setup
-🔹 Prerequisites
-
-    Python 3.x
-    Flask
-    SQLite
-    Web browser
-
-🔹 Installation Steps
-
-1️⃣ Clone the repository
-
-git clone https://github.com/greedoftheendless/Software-Engineering-Project.git
-
-2️⃣ Install dependencies
-
+3. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-3️⃣ Run the Flask source
+4. Set up environment variables
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
 
-source venv/bin/activate
+5. Initialize database
+```bash
+python database_setup.py
+```
 
-4️⃣ Run the backend to run in local system
-
+6. Run the application
+```bash
 python app.py
+```
 
-4️⃣ Open in browser
+## 🔒 Security Features
 
-http://127.0.0.1:8000. This is the local host of your device and redirects to port 8000 to open up the website)
+- Password hashing
+- CSRF protection
+- XSS prevention
+- SQL injection protection
+- Secure session handling
 
-📸 Screenshots
-🔹 Login Page
+## 📱 Key Components
 
-🔹 Dashboard
+### Routes
+- **auth.py**: Authentication and user management
+- **main.py**: Core meal booking and dashboard functionality
+- **payment.py**: Payment processing and refund handling
+- **admin.py**: Administrative functions
 
-📜 License
+### Models
+- User management
+- Meal booking system
+- Subscription handling
+- Payment processing
 
-This project is licensed under the MIT License.
-🤝 Contributing
+## 🤝 Contributing
 
-📧 Email: abhijitsudheer2005@gmail.com
-🔗 GitHub: [greedoftheendless](https://github.com/greedoftheendless)
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🎯 Future Enhancements
+
+- Mobile application
+- Advanced analytics
+- Multi-language support
+- Kitchen inventory management
+- Nutritional information tracking

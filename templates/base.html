@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mess Management System{% endblock %}</title>
+    
+    <!-- SF Pro Display Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Apple Design System CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/apple.css') }}">
+    
+    <!-- Base CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding-top: calc(var(--nav-height) + var(--spacing-lg));
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .alert {
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-md);
+            font-weight: 500;
+        }
+
+        .alert-success { background: var(--success-color); color: white; }
+        .alert-error { background: var(--danger-color); color: white; }
+        .alert-warning { background: var(--warning-color); color: white; }
+        .alert-info { background: var(--info-color); color: white; }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-base);
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: saturate(180%) blur(20px);
+                -webkit-backdrop-filter: saturate(180%) blur(20px);
+                padding: var(--spacing-lg);
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                border-bottom: 1px solid var(--border-color);
+                transform: translateY(-100%);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                width: 44px;
+                height: 44px;
+                font-size: var(--font-size-xl);
+                color: var(--text-primary);
+                cursor: pointer;
+                margin-left: auto;
+                border-radius: var(--border-radius-full);
+                transition: background-color 0.2s ease;
+            }
+
+            .menu-toggle:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-link {
+                font-size: var(--font-size-lg);
+                padding: var(--spacing-sm) 0;
+            }
+
+            .nav-link::after {
+                display: none;
+            }
+        }
+    </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                menuToggle.setAttribute('aria-expanded', 
+                    menuToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+                );
+            });
+        });
+    </script>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="heading">MMS</a>
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" role="navigation" aria-label="Main navigation">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a>
+                    <a href="{{ url_for('main.meal_booking') }}" class="nav-link">Book Meal</a>
+                    <a href="{{ url_for('main.meal_history') }}" class="nav-link">History</a>
+                    {% if current_user.role == 'admin' %}
+                        <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-primary">Admin</a>
+                    {% endif %}
+                    <a href="{{ url_for('auth.logout') }}" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} glass-effect">
+                        <i class="fas fa-info-circle"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
