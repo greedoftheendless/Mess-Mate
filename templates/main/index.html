@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Mess Management System{% endblock %}
+
+{% block styles %}
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 120px 0 80px;
+    }
+
+    .hero-title {
+        font-size: 56px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+        font-size: 26px;
+        font-weight: 400;
+        color: var(--text-secondary);
+        letter-spacing: -0.01em;
+        line-height: 1.4;
+        max-width: 600px;
+        margin: 0 auto 60px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-bottom: 80px;
+    }
+
+    .feature-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 32px;
+        text-align: left;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-title {
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 12px;
+        letter-spacing: -0.01em;
+    }
+
+    .feature-text {
+        font-size: 16px;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+        line-height: 1.5;
+    }
+
+    .cta-section {
+        text-align: center;
+    }
+
+    .cta-text {
+        font-size: 20px;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+    }
+
+    .btn-outline-primary {
+        background: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: scale(0.98);
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 40px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            padding: 0 20px;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            padding: 0 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1 class="hero-title">Welcome to Mess Management System</h1>
+    <p class="hero-subtitle">Streamline your mess management experience with our comprehensive digital solution.</p>
+    
+    <div class="features-grid">
+        <div class="feature-card">
+            <h3 class="feature-title">Meal Booking</h3>
+            <p class="feature-text">Book your meals in advance and manage your dining schedule efficiently.</p>
+            <a href="{{ url_for('main.meal_booking') }}" class="btn btn-primary">Book Now</a>
+        </div>
+        
+        <div class="feature-card">
+            <h3 class="feature-title">Meal History</h3>
+            <p class="feature-text">Track your meal history and manage your dining expenses.</p>
+            <a href="{{ url_for('main.meal_history') }}" class="btn btn-primary">View History</a>
+        </div>
+        
+        <div class="feature-card">
+            <h3 class="feature-title">Dashboard</h3>
+            <p class="feature-text">Access your personalized dashboard to manage all your mess activities.</p>
+            <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+        </div>
+    </div>
+    
+    {% if not current_user.is_authenticated %}
+    <div class="cta-section">
+        <p class="cta-text">Get started by creating an account or logging in</p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary mx-2">Register</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary mx-2">Login</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

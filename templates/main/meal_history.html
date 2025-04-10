@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}Meal History - ODMS{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <div class="history-header">
+        <h1 class="history-title">Meal History</h1>
+        <p class="history-subtitle">View your meal bookings and subscription history</p>
+    </div>
+
+    <div class="history-tabs">
+        <div class="history-tab active" data-content="upcoming">Upcoming Meals</div>
+        <div class="history-tab" data-content="past">Past Meals</div>
+    </div>
+
+    <div id="upcoming" class="history-content active">
+        <div class="meal-grid">
+            {% set upcoming_meals = meals.items|selectattr('meal_date', 'ge', now)|list %}
+            {% if not upcoming_meals %}
+            <div class="glass-container no-meals">
+                <h3>No upcoming meals</h3>
+                <p>Book your next meal to see it here</p>
+                <a href="{{ url_for('main.meal_booking') }}" class="action-btn">Book Now</a>
+            </div>
+            {% else %}
+            {% for meal in upcoming_meals %}
+            <div class="meal-card glass-container">
+                <div class="meal-header">
+                    <span class="meal-date">{{ meal.meal_date.strftime('%B %d, %Y') }}</span>
+                    <span class="meal-type {{ meal.meal_type.lower() }}">{{ meal.meal_type }}</span>
+                </div>
+                <div class="meal-details">
+                    <div class="meal-info">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ meal.meal_date.strftime('%I:%M %p') }}</span>
+                    </div>
+                    <div class="meal-info">
+                        <i class="fas fa-utensils"></i>
+                        <span>{{ meal.status|title }}</span>
+                    </div>
+                    {% if meal.dietary_preferences %}
+                    <div class="meal-preferences">
+                        {% for pref in meal.dietary_preferences.split(',') %}
+                        <span class="preference-tag">{{ pref.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if meal.status != 'cancelled' and meal.meal_date > now %}
+                    <form action="{{ url_for('main.cancel_meal', meal_id=meal.id) }}" method="POST" class="mt-3">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this meal?')">
+                            Cancel Meal
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="past" class="history-content">
+        <div class="meal-grid">
+            {% set past_meals = meals.items|selectattr('meal_date', 'lt', now)|list %}
+            {% if not past_meals %}
+            <div class="glass-container no-meals">
+                <h3>No meal history</h3>
+                <p>Your past meals will appear here</p>
+            </div>
+            {% else %}
+            {% for meal in past_meals %}
+            <div class="meal-card glass-container">
+                <div class="meal-header">
+                    <span class="meal-date">{{ meal.meal_date.strftime('%B %d, %Y') }}</span>
+                    <span class="meal-type {{ meal.meal_type.lower() }}">{{ meal.meal_type }}</span>
+                </div>
+                <div class="meal-details">
+                    <div class="meal-info">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ meal.meal_date.strftime('%I:%M %p') }}</span>
+                    </div>
+                    <div class="meal-info">
+                        <i class="fas fa-utensils"></i>
+                        <span>{{ meal.status|title }}</span>
+                    </div>
+                    {% if meal.dietary_preferences %}
+                    <div class="meal-preferences">
+                        {% for pref in meal.dietary_preferences.split(',') %}
+                        <span class="preference-tag">{{ pref.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    {% if meals.pages > 1 %}
+    <div class="pagination-container">
+        {% for page_num in meals.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2) %}
+        {% if page_num %}
+            {% if page_num == meals.page %}
+            <span class="page-item active">{{ page_num }}</span>
+            {% else %}
+            <a href="{{ url_for('main.meal_history', page=page_num) }}" class="page-item">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            <span class="page-item dots">...</span>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .history-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .history-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .history-title {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .history-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+    }
+
+    .history-tabs {
+        display: flex;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .history-tab {
+        flex: 1;
+        padding: 1rem;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+    }
+
+    .history-tab.active {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        margin-bottom: -2px;
+    }
+
+    .history-content {
+        display: none;
+    }
+
+    .history-content.active {
+        display: block;
+    }
+
+    .meal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .meal-card {
+        padding: 1.5rem;
+    }
+
+    .meal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .meal-date {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .meal-type {
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .meal-type.breakfast {
+        background: #e6f4ff;
+        color: #0066cc;
+    }
+
+    .meal-type.lunch {
+        background: #f6ffed;
+        color: #52c41a;
+    }
+
+    .meal-type.dinner {
+        background: #fff7e6;
+        color: #fa8c16;
+    }
+
+    .meal-details {
+        margin-top: 1rem;
+    }
+
+    .meal-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+    }
+
+    .meal-preferences {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .preference-tag {
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.9rem;
+        background: var(--background-secondary);
+        color: var(--text-secondary);
+    }
+
+    .no-meals {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-secondary);
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+
+    .page-item {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background: var(--background-secondary);
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .page-item.active {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .page-item.dots {
+        background: none;
+        padding: 0.5rem;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .mt-3 {
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.history-tab');
+    const contents = document.querySelectorAll('.history-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const contentId = tab.dataset.content;
+
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+            document.getElementById(contentId).classList.add('active');
+        });
+    });
+});
+</script>
+{% endblock %}

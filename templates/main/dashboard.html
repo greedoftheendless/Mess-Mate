@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - ODMS{% endblock %}
+
+{% block styles %}
+<style>
+    .dashboard-header {
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .dashboard-title {
+        font-size: var(--font-size-2xl);
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .dashboard-subtitle {
+        color: var(--text-secondary);
+        font-size: var(--font-size-base);
+    }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md);
+        background: var(--card-background);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        font-size: var(--font-size-base);
+        font-weight: 500;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-btn i {
+        font-size: var(--font-size-xl);
+        color: var(--primary-color);
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .dashboard-card {
+        background: var(--card-background);
+        border-radius: var(--border-radius-lg);
+        padding: var(--spacing-lg);
+        border: 1px solid var(--border-color);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .card-title {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .card-icon {
+        font-size: var(--font-size-xl);
+        color: var(--primary-color);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--background);
+        border-radius: var(--border-radius-full);
+    }
+
+     .list-container {
+        margin-top: var(--spacing-md);
+    }
+
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s ease;
+    }
+
+    .list-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-item:hover {
+        background-color: var(--background);
+    }
+
+    .item-info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .item-title {
+        font-weight: 500;
+        color: var(--text-primary);
+        font-size: var(--font-size-base);
+    }
+
+    .item-subtitle {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+    }
+
+    .status-badge {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+    }
+
+    .status-confirmed {
+        background: var(--success-color);
+        color: white;
+    }
+
+    .status-pending {
+        background: var(--warning-color);
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: var(--spacing-xl);
+        color: var(--text-secondary);
+    }
+
+    .empty-state i {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-sm);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Welcome back, {{ current_user.username }}</h1>
+        <p class="dashboard-subtitle">Manage your meals and subscription</p>
+    </div>
+
+    <div class="quick-actions">
+        <a href="{{ url_for('main.meal_booking') }}" class="action-btn">
+            <i class="fas fa-utensils"></i>
+            <span>Book Meal</span>
+        </a>
+        <a href="{{ url_for('main.meal_history') }}" class="action-btn">
+            <i class="fas fa-history"></i>
+            <span>Meal History</span>
+        </a>
+        {% if subscription %}
+        <a href="#" class="action-btn">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Manage Subscription</span>
+        </a>
+        {% else %}
+        <a href="{{ url_for('main.meal_booking') }}?type=subscription" class="action-btn">
+            <i class="fas fa-star"></i>
+            <span>Get Subscription</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2 class="card-title">Upcoming Meals</h2>
+                <div class="card-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+            </div>
+            {% if upcoming_meals %}
+            <div class="list-container">
+                {% for meal in upcoming_meals %}
+                <div class="list-item">
+                    <div class="item-info">
+                        <span class="item-title">{{ meal.meal_type|title }}</span>
+                        <span class="item-subtitle">{{ meal.meal_date.strftime('%B %d, %Y') }}</span>
+                    </div>
+                    <span class="status-badge status-{{ meal.status }}">{{ meal.status|title }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-calendar-xmark"></i>
+                <p>No upcoming meals scheduled</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2 class="card-title">Subscription Status</h2>
+                <div class="card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            {% if subscription %}
+            <div class="list-container">
+                <div class="list-item">
+                    <div class="item-info">
+                        <span class="item-title">{{ subscription.plan_type|title }}</span>
+                        <span class="item-subtitle">Expires {{ subscription.end_date.strftime('%B %d, %Y') }}</span>
+                    </div>
+                    <span class="status-badge status-{{ subscription.status }}">{{ subscription.status|title }}</span>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-ticket"></i>
+                <p>No active subscription</p>
+                <a href="{{ url_for('main.meal_booking') }}?type=subscription" class="btn btn-primary">Get Started</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h2 class="card-title">Recent Payments</h2>
+            <div class="card-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+        </div>
+        {% if recent_payments %}
+        <div class="list-container">
+            {% for payment in recent_payments %}
+            <div class="list-item">
+                <div class="item-info">
+                    <span class="item-title">${{ "%.2f"|format(payment.amount) }}</span>
+                    <span class="item-subtitle">{{ payment.created_at.strftime('%B %d, %Y') }}</span>
+                </div>
+                <span class="status-badge status-{{ payment.status }}">{{ payment.status|title }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>No recent payments</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
