@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mess Signup Form</title>
+    <link rel="stylesheet" href="/static//css/details-page.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Mess Registration</h2>
+      <form action="bill.html" method="GET">
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="first_name" required />
+
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" name="last_name" required />
+
+        <label for="eating">Eating Preference:</label>
+        <select id="eating" name="eating_preference" required>
+          <option value="" disabled selected>Select preference</option>
+          <option value="Dine In">Dine In</option>
+          <option value="Parcel">Parcel</option>
+        </select>
+
+        <label for="phone">Phone Number:</label>
+        <div class="phone-input">
+          <span>🇮🇳 +91</span>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            pattern="[6-9]\d{9}"
+            maxlength="10"
+            required
+          />
+        </div>
+        </div>
+        <div class="note">
+          *For prices, see the
+          <a href="meal_booking.html" target="_blank">Prices Page</a>
+        </div>
+
+        <div class="confirmation">
+          <p>
+            <strong>Please cross verify your details.</strong> After
+            confirmation, any changes must be made by contacting the admin at
+            <a href="mailto:abhijitsudheer2005@gmail.com"
+              >abhijitsudheer2005@gmail.com</a
+          </p>
+        </div>
+
+        <button type="submit">Confirm</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+/* General Styles */
+body {
+    background-color: #0E121A;
+    color: #EFF6FF;
+    font-family: "Segoe UI", sans-serif;
+    padding: 40px;
+    margin: 0;
+  }
+  
+  /* Bill Container */
+  .bill-container {
+    background-color: #1F2633;
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Heading */
+  .bill-container h2 {
+    text-align: center;
+    color: #3B82F6;
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+  
+  /* Details */
+  .bill-details p {
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+  
+  .bill-details strong {
+    display: inline-block;
+    width: 160px;
+    color: #FACC15;
+  }
+  
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #94A3B8;
+  }
+  
+  /* Button */
+  button {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: #3B82F6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2563EB;
+  }
+  
+  /* Links */
+  a {
+    color: #60A5FA;
+    text-decoration: underline;
+  }
+  
+  a:hover {
+    color: #93C5FD;
+  }
+  
+  /* Print Style */
+  @media print {
+    body {
+      background: white;
+      color: black;
+    }
+  
+    .bill-container {
+      box-shadow: none;
+      border: none;
+      background: white;
+      color: black;
+    }
+  
+    button {
+      display: none;
+    }
+  
+    .footer {
+      color: #333;
+    }
+  }
+
+  

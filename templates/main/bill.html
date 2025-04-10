@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mess Registration Bill</title>
+    <link rel="stylesheet" href="/static/css/bill.css" />
+  </head>
+  <body>
+    <div class="bill-container">
+      <h2>Mess Registration Bill</h2>
+      <div class="bill-details" id="billDetails">
+        <!-- JavaScript will inject bill data here -->
+      </div>
+
+      <div class="footer">
+        Thank you for registering! Contact us at
+        <a href="mailto:abhijitsudheer2005@gmail.com"
+          >abhijitsudheer2005@gmail.com</a
+        >
+      </div>
+
+      <button onclick="window.print()">Print Bill</button>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+
+      const data = {
+        "First Name": params.get("first_name") || "-",
+        "Last Name": params.get("last_name") || "-",
+        "Phone Number": params.get("phone")
+          ? "+91 " + params.get("phone")
+          : "-",
+        "Food Preference": params.get("food_preference") || "-",
+        "Eating Preference": params.get("eating_preference") || "-",
+        "Plan Preference": (params.getAll("plan") || []).join(", ") || "-",
+      };
+
+      const detailsContainer = document.getElementById("billDetails");
+
+      for (const key in data) {
+        const p = document.createElement("p");
+        p.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
+        detailsContainer.appendChild(p);
+      }
+
+      window.onload = () => {
+        setTimeout(() => {
+          window.print();
+        }, 500);
+      };
+    </script>
+  </body>
+</html>

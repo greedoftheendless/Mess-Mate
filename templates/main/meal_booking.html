@@ -1,299 +1,319 @@
-{% extends "base.html" %}
-
-{% block title %}Meal Booking - ODMS{% endblock %}
-
-{% block styles %}
+{% extends "base.html" %} {% block title %}Meal Booking - ODMS{% endblock %} {%
+block styles %}
 <style>
-    .booking-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
+  .booking-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-    .booking-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
+  .booking-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
-    .booking-title {
-        color: var(--primary-color);
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
+  .booking-title {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
 
-    .booking-subtitle {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-    }
+  .booking-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
 
-    .booking-tabs {
-        display: flex;
-        margin-bottom: 2rem;
-        border-bottom: 2px solid #e5e7eb;
-    }
+  .booking-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
 
-    .booking-tab {
-        flex: 1;
-        padding: 1rem;
-        text-align: center;
-        cursor: pointer;
-        font-weight: 500;
-        color: var(--text-secondary);
-        transition: all 0.3s ease;
-    }
+  .booking-tab {
+    flex: 1;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+  }
 
-    .booking-tab.active {
-        color: var(--primary-color);
-        border-bottom: 2px solid var(--primary-color);
-        margin-bottom: -2px;
-    }
+  .booking-tab.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: -2px;
+  }
 
-    .booking-form {
-        display: none;
-        padding: 2rem;
-    }
+  .booking-form {
+    display: none;
+    padding: 2rem;
+  }
 
-    .booking-form.active {
-        display: block;
-    }
+  .booking-form.active {
+    display: block;
+  }
 
-    .subscription-plans {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
+  .subscription-plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
 
-    .plan-card {
-        padding: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+  .plan-card {
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-    .plan-card:hover {
-        transform: translateY(-5px);
-    }
+  .plan-card:hover {
+    transform: translateY(-5px);
+  }
 
-    .plan-card.selected {
-        border: 2px solid var(--primary-color);
-    }
+  .plan-card.selected {
+    border: 2px solid var(--primary-color);
+  }
 
-    .plan-name {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--primary-color);
-        margin-bottom: 0.5rem;
-    }
+  .plan-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
 
-    .plan-price {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
-    }
+  .plan-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
 
-    .plan-price span {
-        font-size: 1rem;
-        color: var(--text-secondary);
-    }
+  .plan-price span {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
 
-    .plan-features {
-        list-style: none;
-        padding: 0;
-        margin-bottom: 1.5rem;
-    }
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
 
-    .plan-features li {
-        margin-bottom: 0.5rem;
-        color: var(--text-secondary);
-    }
+  .plan-features li {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+  }
 
-    .meal-preferences {
-        margin-top: 2rem;
-    }
+  .meal-preferences {
+    margin-top: 2rem;
+  }
 
-    .preferences-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        color: var(--text-primary);
-    }
+  .preferences-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
 
-    .preferences-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
+  .preferences-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
 
-    .preference-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+  .preference-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-    .date-time-selection {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
+  .date-time-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
 
-    .submit-btn {
-        width: 100%;
-        padding: 1rem;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+  .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-    .submit-btn:hover {
-        background: var(--secondary-color);
-    }
+  .submit-btn:hover {
+    background: var(--secondary-color);
+  }
 </style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="booking-container">
-    <div class="booking-header">
-        <h1 class="booking-title">Book Your Meals</h1>
-        <p class="booking-subtitle">Choose your preferred meal plan or book individual meals</p>
+  <div class="booking-header">
+    <h1 class="booking-title">Book Your Meals</h1>
+    <p class="booking-subtitle">
+      Choose your preferred meal plan or book individual meals
+    </p>
+  </div>
+
+  <div class="booking-tabs">
+    <div class="booking-tab active" data-form="subscription-form">
+      Subscription
     </div>
+    <div class="booking-tab" data-form="one-time-form">One-time Booking</div>
+  </div>
 
-    <div class="booking-tabs">
-        <div class="booking-tab active" data-form="subscription-form">Subscription</div>
-        <div class="booking-tab" data-form="one-time-form">One-time Booking</div>
-    </div>
+  <div id="subscription-form" class="booking-form glass-container active">
+    <form method="POST" action="{{ url_for('main.meal_booking') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <input type="hidden" name="booking_type" value="subscription" />
 
-    <div id="subscription-form" class="booking-form glass-container active">
-        <form method="POST" action="{{ url_for('main.meal_booking') }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="booking_type" value="subscription">
+      <div class="subscription-plans">
+        {% for plan in meal_plans %}
+        <div class="plan-card glass-container">
+          <h3 class="plan-name">{{ plan.name }}</h3>
+          <div class="plan-price">
+            ₹{{ "%.2f"|format(plan.price) }}
+            <span>/{{ plan.duration }} days</span>
+          </div>
+          <ul class="plan-features">
+            <li>{{ plan.meals_included }} meals included</li>
+            <li>{{ plan.description }}</li>
+          </ul>
+          <label class="preference-item">
+            <input
+              type="radio"
+              name="plan_type"
+              value="{{ plan.id }}"
+              required
+            />
+            Select Plan
+          </label>
+        </div>
+        {% endfor %}
+      </div>
 
-            <div class="subscription-plans">
-                {% for plan in meal_plans %}
-                <div class="plan-card glass-container">
-                    <h3 class="plan-name">{{ plan.name }}</h3>
-                    <div class="plan-price">${{ "%.2f"|format(plan.price) }} <span>/{{ plan.duration }} days</span></div>
-                    <ul class="plan-features">
-                        <li>{{ plan.meals_included }} meals included</li>
-                        <li>{{ plan.description }}</li>
-                    </ul>
-                    <label class="preference-item">
-                        <input type="radio" name="plan_type" value="{{ plan.id }}" required>
-                        Select Plan
-                    </label>
-                </div>
-                {% endfor %}
-            </div>
+      <div class="meal-preferences">
+        <h3 class="preferences-title">Dietary Preferences</h3>
+        <div class="preferences-grid">
+          <label class="preference-item">
+            <input type="checkbox" name="meal_preferences" value="vegetarian" />
+            Vegetarian
+          </label>
+          <label class="preference-item">
+            <input type="checkbox" name="meal_preferences" value="vegan" />
+            Vegan
+          </label>
+          <label class="preference-item">
+            <input
+              type="checkbox"
+              name="meal_preferences"
+              value="gluten-free"
+            />
+            Gluten-free
+          </label>
+          <label class="preference-item">
+            <input type="checkbox" name="meal_preferences" value="halal" />
+            Halal
+          </label>
+        </div>
+      </div>
 
-            <div class="meal-preferences">
-                <h3 class="preferences-title">Dietary Preferences</h3>
-                <div class="preferences-grid">
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="vegetarian">
-                        Vegetarian
-                    </label>
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="vegan">
-                        Vegan
-                    </label>
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="gluten-free">
-                        Gluten-free
-                    </label>
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="halal">
-                        Halal
-                    </label>
-                </div>
-            </div>
+      <button type="submit" class="submit-btn">Subscribe Now</button>
+    </form>
+  </div>
 
-            <button type="submit" class="submit-btn">Subscribe Now</button>
-        </form>
-    </div>
+  <div id="one-time-form" class="booking-form glass-container">
+    <form method="POST" action="{{ url_for('main.meal_booking') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <input type="hidden" name="booking_type" value="one-time" />
 
-    <div id="one-time-form" class="booking-form glass-container">
-        <form method="POST" action="{{ url_for('main.meal_booking') }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="booking_type" value="one-time">
+      <div class="date-time-selection">
+        <div class="form-group">
+          <label for="meal-date">Date</label>
+          <input
+            type="date"
+            id="meal-date"
+            name="meal_date"
+            class="form-control"
+            required
+            min="{{ today }}"
+            max="{{ max_date }}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="meal-type">Meal Type</label>
+          <select id="meal-type" name="meal_type" class="form-control" required>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+          </select>
+        </div>
+      </div>
 
-            <div class="date-time-selection">
-                <div class="form-group">
-                    <label for="meal-date">Date</label>
-                    <input type="date" id="meal-date" name="meal_date" class="form-control" required
-                           min="{{ today }}" max="{{ max_date }}">
-                </div>
-                <div class="form-group">
-                    <label for="meal-type">Meal Type</label>
-                    <select id="meal-type" name="meal_type" class="form-control" required>
-                        <option value="breakfast">Breakfast</option>
-                        <option value="lunch">Lunch</option>
-                        <option value="dinner">Dinner</option>
-                    </select>
-                </div>
-            </div>
+      <div class="meal-preferences">
+        <h3 class="preferences-title">Dietary Preferences</h3>
+        <div class="preferences-grid">
+          <label class="preference-item">
+            <input type="checkbox" name="meal_preferences" value="vegetarian" />
+            Vegetarian
+          </label>
+          <label class="preference-item">
+            <input type="checkbox" name="meal_preferences" value="vegan" />
+            Vegan
+          </label>
+          <label class="preference-item">
+            <input
+              type="checkbox"
+              name="meal_preferences"
+              value="gluten-free"
+            />
+            Gluten-free
+          </label>
+          <label class="preference-item">
+            <input type="checkbox" name="meal_preferences" value="halal" />
+            Halal
+          </label>
+        </div>
+      </div>
 
-            <div class="meal-preferences">
-                <h3 class="preferences-title">Dietary Preferences</h3>
-                <div class="preferences-grid">
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="vegetarian">
-                        Vegetarian
-                    </label>
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="vegan">
-                        Vegan
-                    </label>
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="gluten-free">
-                        Gluten-free
-                    </label>
-                    <label class="preference-item">
-                        <input type="checkbox" name="meal_preferences" value="halal">
-                        Halal
-                    </label>
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn">Book Meal</button>
-        </form>
-    </div>
+      <button type="submit" class="submit-btn">Book Meal</button>
+    </form>
+  </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.booking-tab');
-    const forms = document.querySelectorAll('.booking-form');
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll(".booking-tab");
+    const forms = document.querySelectorAll(".booking-form");
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const formId = tab.dataset.form;
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const formId = tab.dataset.form;
 
-            tabs.forEach(t => t.classList.remove('active'));
-            forms.forEach(f => f.classList.remove('active'));
+        tabs.forEach((t) => t.classList.remove("active"));
+        forms.forEach((f) => f.classList.remove("active"));
 
-            tab.classList.add('active');
-            document.getElementById(formId).classList.add('active');
-        });
+        tab.classList.add("active");
+        document.getElementById(formId).classList.add("active");
+      });
     });
 
-    const planCards = document.querySelectorAll('.plan-card');
-    planCards.forEach(card => {
-        card.addEventListener('click', () => {
-            planCards.forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            const radio = card.querySelector('input[type="radio"]');
-            radio.checked = true;
-        });
+    const planCards = document.querySelectorAll(".plan-card");
+    planCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        planCards.forEach((c) => c.classList.remove("selected"));
+        card.classList.add("selected");
+        const radio = card.querySelector('input[type="radio"]');
+        radio.checked = true;
+      });
     });
-});
+  });
 </script>
 {% endblock %}

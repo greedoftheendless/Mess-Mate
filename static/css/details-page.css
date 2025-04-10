@@ -1,0 +1,116 @@
+/* Form Container */
+.form-container {
+    background-color: #1F2633;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 40px auto;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Headings */
+.form-container h2 {
+    text-align: center;
+    color: #3B82F6;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Labels */
+.form-container label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #EFF6FF;
+    font-weight: 600;
+}
+
+/* Inputs & Selects */
+.form-container input[type="text"],
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    background-color: #0E121A;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    color: #EFF6FF;
+    font-size: 1rem;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.form-container input[type="text"]:focus,
+.form-container select:focus {
+    outline: none;
+    border-color: #3B82F6;
+    box-shadow: 0 0 5px #3B82F6;
+}
+
+/* Phone Input */
+.phone-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.phone-input span {
+    background-color: #3B82F6;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Plan Options */
+.plan-options label {
+    display: block;
+    margin-top: 5px;
+    font-weight: normal;
+    color: #B8BFCC;
+}
+
+.note {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: #94A3B8;
+    margin-top: 5px;
+}
+
+/* Confirmation */
+.confirmation {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #F3F4F6;
+}
+
+.confirmation strong {
+    color: #FACC15;
+}
+
+/* Pay Button */
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background-color: #3B82F6;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #2563EB;
+}
+
+/* Link styling */
+a {
+    color: #60A5FA;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #93C5FD;
+}
