@@ -3,15 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mess Registration Bill</title>
-    <link rel="stylesheet" href="/static/css/bill.css" />
+    <title>Mess Bill - ODMS</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 2rem;
+        background-color: #f4f4f4;
+      }
+
+      .bill-container {
+        max-width: 600px;
+        margin: auto;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+      }
+
+      .bill-details p {
+        margin: 0.5rem 0;
+        font-size: 1.1rem;
+        color: #555;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        color: #777;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 1.5rem;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
   </head>
   <body>
-    <div class="bill-container">
+    <div class="bill-container" id="bill">
       <h2>Mess Registration Bill</h2>
-      <div class="bill-details" id="billDetails">
-        <!-- JavaScript will inject bill data here -->
+      <div class="bill-details">
+        <p><strong>Name:</strong> Abhijit Sudheer</p>
+        <p><strong>Meal Plan:</strong> Weekly</p>
+        <p><strong>Price:</strong> ₹299</p>
       </div>
+
+      <button onclick="downloadPDF()">Pay Now</button>
 
       <div class="footer">
         Thank you for registering! Contact us at
@@ -19,37 +74,28 @@
           >abhijitsudheer2005@gmail.com</a
         >
       </div>
-
-      <button onclick="window.print()">Print Bill</button>
     </div>
 
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-      const params = new URLSearchParams(window.location.search);
+      async function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-      const data = {
-        "First Name": params.get("first_name") || "-",
-        "Last Name": params.get("last_name") || "-",
-        "Phone Number": params.get("phone")
-          ? "+91 " + params.get("phone")
-          : "-",
-        "Food Preference": params.get("food_preference") || "-",
-        "Eating Preference": params.get("eating_preference") || "-",
-        "Plan Preference": (params.getAll("plan") || []).join(", ") || "-",
-      };
+        doc.setFontSize(16);
+        doc.text("Mess Registration Bill", 70, 20);
+        doc.setFontSize(12);
+        doc.text("Name: Abhijit Sudheer", 20, 40);
+        doc.text("Meal Plan: Weekly", 20, 50);
+        doc.text("Price: Rs.299", 20, 60);
 
-      const detailsContainer = document.getElementById("billDetails");
+        doc.setFontSize(10);
+        doc.text("Thank you for registering!", 20, 80);
+        doc.text("Contact: abhijitsudheer2005@gmail.com", 20, 90);
 
-      for (const key in data) {
-        const p = document.createElement("p");
-        p.innerHTML = `<strong>${key}:</strong> ${data[key]}`;
-        detailsContainer.appendChild(p);
+        doc.save("mess_bill.pdf");
       }
-
-      window.onload = () => {
-        setTimeout(() => {
-          window.print();
-        }, 500);
-      };
     </script>
   </body>
 </html>
