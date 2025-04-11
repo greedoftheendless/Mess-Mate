@@ -161,6 +161,7 @@
                     <a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a>
                     <a href="{{ url_for('main.meal_booking') }}" class="nav-link">Book Meal</a>
                     <a href="{{ url_for('main.meal_history') }}" class="nav-link">History</a>
+                    <a href="{{ url_for('bill', user_id=current_user.id, plan_id=1) }}" class="nav-link">Billing</a>
                     {% if current_user.role == 'admin' %}
                         <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-primary">Admin</a>
                     {% endif %}
@@ -168,7 +169,8 @@
                 {% else %}
                     <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
                     <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
-                {% endif %}
+                {% endif %}                
+
             </div>
         </div>
     </nav>

@@ -84,6 +84,23 @@ def before_request():
         current_user.last_login = datetime.utcnow()
         db.session.commit()
 
+# Add this route to your app.py file
+# Make sure these imports are at the top of your app.py file
+from flask_login import login_required, current_user
+from models import User, MealPlan
+
+@app.route('/bill/<int:user_id>/<int:plan_id>')
+@login_required
+def bill(user_id, plan_id):
+    # Security check - users should only see their own bills
+    if current_user.id != user_id and not current_user.is_admin:
+        flash('You do not have permission to view this bill', 'danger')
+        return redirect(url_for('main.dashboard'))
+        
+    user = User.query.get_or_404(user_id)
+    meal_plan = MealPlan.query.get_or_404(plan_id)
+    return render_template('main/bill.html', user=user, meal_plan=meal_plan)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

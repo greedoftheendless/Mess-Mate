@@ -61,18 +61,16 @@
     <div class="bill-container" id="bill">
       <h2>Mess Registration Bill</h2>
       <div class="bill-details">
-        <p><strong>Name:</strong> Abhijit Sudheer</p>
-        <p><strong>Meal Plan:</strong> Weekly</p>
-        <p><strong>Price:</strong> ₹299</p>
+        <p><strong>Name:</strong> {{ user.username }}</p>
+        <p><strong>Meal Plan:</strong> {{ meal_plan.name }}</p>
+        <p><strong>Price:</strong> ₹{{ meal_plan.price }}</p>
       </div>
 
       <button onclick="downloadPDF()">Pay Now</button>
 
       <div class="footer">
         Thank you for registering! Contact us at
-        <a href="mailto:abhijitsudheer2005@gmail.com"
-          >abhijitsudheer2005@gmail.com</a
-        >
+        <a href="mailto:{{ user.email }}">{{ user.email }}</a>
       </div>
     </div>
 
@@ -86,13 +84,13 @@
         doc.setFontSize(16);
         doc.text("Mess Registration Bill", 70, 20);
         doc.setFontSize(12);
-        doc.text("Name: Abhijit Sudheer", 20, 40);
-        doc.text("Meal Plan: Weekly", 20, 50);
-        doc.text("Price: Rs.299", 20, 60);
+        doc.text("Name: {{ user.username }}", 20, 40);
+        doc.text("Meal Plan: {{ meal_plan.name }}", 20, 50);
+        doc.text("Price: Rs.{{ meal_plan.price }}", 20, 60);
 
         doc.setFontSize(10);
         doc.text("Thank you for registering!", 20, 80);
-        doc.text("Contact: abhijitsudheer2005@gmail.com", 20, 90);
+        doc.text("Contact: {{ user.email }}", 20, 90);
 
         doc.save("mess_bill.pdf");
       }
