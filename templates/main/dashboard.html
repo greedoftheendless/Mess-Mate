@@ -245,17 +245,14 @@
 
     <div class="dashboard-card">
         <div class="card-header">
-            <h2 class="card-title">Recent Payments</h2>
-            <div class="card-icon">
-                <i class="fas fa-credit-card"></i>
-            </div>
+            <h3>Recent Payments</h3>
         </div>
         {% if recent_payments %}
-        <div class="list-container">
+        <div class="list">
             {% for payment in recent_payments %}
             <div class="list-item">
                 <div class="item-info">
-                    <span class="item-title">${{ "%.2f"|format(payment.amount) }}</span>
+                    <span class="item-title">${{ "%.2f"|format(payment.amount/100) }}</span>
                     <span class="item-subtitle">{{ payment.created_at.strftime('%B %d, %Y') }}</span>
                 </div>
                 <span class="status-badge status-{{ payment.status }}">{{ payment.status|title }}</span>

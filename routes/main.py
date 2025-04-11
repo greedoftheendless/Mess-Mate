@@ -33,12 +33,13 @@ def dashboard():
         )
     ).order_by(Meal.meal_date).limit(5).all()
     
-    # Get recent payments
-    recent_payments = Payment.query.filter_by(
-        user_id=current_user.id
-    ).order_by(Payment.created_at.desc()).limit(3).all()
+    # Get recent payments for the current user
+    recent_payments = Payment.query.filter_by(user_id=current_user.id)\
+        .order_by(Payment.created_at.desc())\
+        .limit(5)\
+        .all()
     
-    return render_template('main/dashboard.html',
+    return render_template('main/dashboard.html', 
                            subscription=active_subscription,
                            upcoming_meals=upcoming_meals,
                            recent_payments=recent_payments)
