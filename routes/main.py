@@ -222,3 +222,9 @@ def initiate_refund(meal):
     if payment:
         from routes.payment import process_refund
         process_refund(payment)
+
+@main_bp.route('/contact')
+@login_required
+def feedback():
+    return render_template('main/contact.html')
+
