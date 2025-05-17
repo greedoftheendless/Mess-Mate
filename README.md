@@ -35,7 +35,7 @@ A comprehensive web-based dining management system designed for institutions to 
 
 - **Backend**: Python Flask
 - **Database**: SQLite
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Frontend**: HTML5, CSS, JavaScript
 - **Authentication**: Flask-Login
 - **ORM**: SQLAlchemy
 - **UI**: Modern responsive design
@@ -114,6 +114,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Mobile application
 - Advanced analytics
-- Multi-language support
 - Kitchen inventory management
 - Nutritional information tracking
